@@ -22,6 +22,7 @@ describe('users model', () => {
 
   describe('insert function', () => {
     it('inserts users into the db', async () => {
+
       let usersNumber = await db('users');
       expect(usersNumber).toHaveLength(0);
 
@@ -41,7 +42,17 @@ describe('users model', () => {
 
       const user = await Users.findByEmail(email);
 
-      expect(user[0].email).toEqual(email);
+      expect(user.email).toEqual(email);
+    })
+  })
+
+  describe('find by id function', () => {
+    it('retrieves a user by id', async () => {
+      await Users.register(dummyUser);
+
+      const user = await Users.findById(1);
+
+      expect(user.email).toEqual(dummyUser.email);
     })
   })
 });
