@@ -44,7 +44,7 @@ module.exports = {
     seeds: {
       directory: './data/seeds'
     }
-  }
+  },
 
   // staging: {
   //   client: 'postgresql',
@@ -62,20 +62,20 @@ module.exports = {
   //   }
   // },
 
-  // production: {
-  //   client: 'pg',
-  //   connection: dbConnection,
-  //   pool: {
-  //     min: 2,
-  //     max: 10
-  //   },
-  //   migrations: {
-  //     tableName: 'knex_migrations',
-  //     directory: './data/migrations'
-  //   },
-  //   seeds: {
-  //     directory: './data/seeds'
-  //   }
-  // }
+  production: {
+    client: 'pg',
+    connection: dbConnection,
+    pool: {
+      min: 2,
+      max: 10
+    },
+    migrations: {
+      tableName: 'knex_migrations',
+      directory: './data/migrations'
+    },
+    seeds: {
+      directory: './data/seeds'
+    }
+  }
 
 };
