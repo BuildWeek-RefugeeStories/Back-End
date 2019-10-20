@@ -58,7 +58,7 @@ router.post("/login", async (req, res) => {
   ) {
     const user = await Users.findByEmail(req.body.email);
 
-    if (!user) {
+    if (!user.email) {
       return res.status(404).json({
         message:
           "No user with that email address exists, please check your credentials."
