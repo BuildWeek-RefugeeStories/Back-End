@@ -29,10 +29,8 @@
     "helmet": "^3.21.1",
     "jest": "^24.9.0",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.19.5",
+    "mongoose": "^5.7.5",
     "nodemon": "^1.19.4",
-    "pg": "^7.12.1",
-    "sqlite3": "^4.1.0",
     "supertest": "^4.0.2"
   }
 }

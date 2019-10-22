@@ -15,7 +15,7 @@ Responds with the user data, with an authorization token embedded:
 
 ```
 {
-  "id": 7,
+  "_id": 5daf584b8ca80247b88f4943,
   "firstName": "Some",
   "lastName": "User",
   "email": "Some@email.com",
@@ -44,7 +44,7 @@ Responds with the newly created user data, with an authorization token embedded 
 
 ```
 {
-  "id": 7,
+  "_id": 5daf584b8ca80247b88f4943,
   "firstName": "Some",
   "lastName": "User",
   "email": "Some@email.com",
