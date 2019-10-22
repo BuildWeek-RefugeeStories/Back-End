@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-mongoose.set('debug', true);
-
 const UserSchema = new mongoose.Schema({
   firstName: {
     type: String,
@@ -28,9 +26,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  likedPosts: [{
-    id: Number
-  }]
+  likedPosts: [String],
+  posts: [String]
 });
 
 module.exports = mongoose.model('Users', UserSchema, 'Users');
