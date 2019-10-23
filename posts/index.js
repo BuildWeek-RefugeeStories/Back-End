@@ -204,7 +204,8 @@ router.post("/new", protected, (req, res) => {
         country: anon ? "" : user.country
       },
       title: req.body.title,
-      body: req.body.body
+      body: req.body.body,
+      approved: req.body.approved
     });
 
     user.posts.push(post._id);
