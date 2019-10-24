@@ -231,4 +231,22 @@ router.post("/new", protected, (req, res) => {
   }
 });
 
+router.post('/approve/:id', protected, (req, res) => {
+  Post.findById(req.params.id, (err, doc) => {
+    if(err || !doc) {
+      return res.status(404).json({message: "Unable to find post. Make sure ID is accurate"});
+    } else {
+      doc.approved = true;
+
+      doc.save((err, doc) => {
+        if(!err) {
+          return res.status(200).json(doc);
+        } else {
+          return res.status(500).json({message: "An error occured while trying to approve this post. Please try again later."})
+        }
+      })
+    }
+  })
+});
+
 module.exports = router;
