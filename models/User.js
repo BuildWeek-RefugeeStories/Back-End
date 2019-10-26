@@ -26,6 +26,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  level: {
+    type: String,
+    required: true
+  },
   likedPosts: [String],
   posts: [String]
 });

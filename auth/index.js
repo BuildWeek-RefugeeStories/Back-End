@@ -51,7 +51,8 @@ router.post("/register", async (req, res) => {
       password: bcrypt.hashSync(req.body.password, 15),
       firstName: req.body.firstName,
       lastName: req.body.lastName,
-      country: req.body.country ? req.body.country : ""
+      country: req.body.country ? req.body.country : "",
+      level: "user"
     };
 
     const user = new User({ ...info });
@@ -79,6 +80,43 @@ router.post("/register", async (req, res) => {
       message:
         "Please provide a valid email, password, first and last name. Specifying your country is optional."
     });
+  }
+});
+
+router.put("/setlevel/:id", protected, (req, res) => {
+  if (req.headers.decodedToken.level === "owner") {
+    if (!req.body || !req.body.level || !req.body.level.trim()) {
+      return res.status(400).json({
+        message: "Please provde a level property to set this user's level."
+      });
+    } else {
+      if(level !== 'user' && level !== 'admin' && level !== 'owner') {
+        return res.status(400).json({message: `'${req.body.level}' is an invalid level. Valid roles: ['user', 'admin', 'owner']`});
+      } else {
+
+      User.findById(req.params.id, (err, doc) => {
+        if (!err && doc) {
+          doc.level = req.body.level;
+          doc.save((err, doc) => {
+            if(!err) {
+              return res.status(200).json(doc);
+            } else {
+              return res.status(500).json({message: "An error occured updating user level."});
+            }
+          })
+        } else {
+          return res.status(500).json({
+            message:
+              "Unable to retreive user. Please make sure that ID is valid"
+          });
+        }
+      });
+    }
+    }
+  } else {
+    return res
+      .status(401)
+      .json({ message: "Only a site owner may adjust user roles." });
   }
 });
 
@@ -128,7 +166,8 @@ const generateToken = user => {
   return jwt.sign(
     {
       id: user._id,
-      email: user.email
+      email: user.email,
+      level: user.level
     },
     process.env.JWT_SECRET
   );
