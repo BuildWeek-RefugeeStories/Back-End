@@ -18,7 +18,7 @@ router.get("/", (req, res) => {
 
     const sortBy = req.query.sort ? req.query.sort : 'date';
     const limit = req.query.limit ? req.query.limit : 25;
-    const page = req.query.page ? req.query.page : 0;
+    let page = req.query.page ? req.query.page : 0;
 
     if(page * limit > stories.length) {
       page = Math.floor(stories.length / limit);
@@ -34,7 +34,7 @@ router.get("/", (req, res) => {
       }
     }
 
-    const end = (page * limit) + limit;
+    let end = (page * limit) + limit;
 
     if(end > stories.length) {
       end = stories.length;
@@ -58,7 +58,7 @@ router.get('/awaiting', protected, (req, res) => {
   
       const sortBy = req.query.sort ? req.query.sort : 'date';
       const limit = req.query.limit ? req.query.limit : 25;
-      const page = req.query.page ? req.query.page : 0;
+      let page = req.query.page ? req.query.page : 0;
 
       if(page * limit > stories.length) {
         page = Math.floor(stories.length / limit);
@@ -74,7 +74,7 @@ router.get('/awaiting', protected, (req, res) => {
         }
       }
   
-      const end = (page * limit) + limit;
+      let end = (page * limit) + limit;
 
       if(end > stories.length) {
         end = stories.length;
