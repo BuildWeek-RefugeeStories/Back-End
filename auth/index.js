@@ -6,14 +6,17 @@ const User = require("../models/User");
 
 const router = express.Router();
 
-const protected = require('./protected');
+const protected = require("./protected");
 
 // Returns user data if token is valid
-router.post('/', protected, (req, res) => {
+router.post("/", protected, (req, res) => {
   // Make sure to remind the client of the token
-  req.headers.user.token = req.headers.authorization;
-  return res.status(200).json(req.headers.user);
-})
+  const response = {
+    ...req.headers.user.token,
+    token: req.headers.authorization
+  };
+  return res.status(200).json(response);
+});
 
 router.post("/register", async (req, res) => {
   console.log("req recieved");
