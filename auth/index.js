@@ -12,7 +12,7 @@ const protected = require("./protected");
 router.post("/", protected, (req, res) => {
   // Make sure to remind the client of the token
   const response = {
-    ...req.headers.user,
+    ...req.headers.user._doc,
     token: req.headers.authorization
   };
   return res.status(200).json(response);
