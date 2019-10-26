@@ -21,6 +21,7 @@ router.post("/", protected, (req, res) => {
 router.post("/register", async (req, res) => {
   console.log("req recieved");
   if (
+    req.body &&
     req.body.email &&
     req.body.email.trim() &&
     req.body.firstName &&
@@ -82,8 +83,8 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   if (
+    req.body &&
     req.body.email &&
     req.body.email.trim() !== "" &&
     req.body.password &&

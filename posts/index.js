@@ -189,6 +189,7 @@ router.post("/new", protected, (req, res) => {
   const user = req.headers.user;
 
   if (
+    req.body &&
     req.body.title &&
     req.body.title.trim() &&
     req.body.body &&
