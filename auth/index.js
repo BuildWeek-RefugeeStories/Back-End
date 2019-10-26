@@ -10,6 +10,8 @@ const protected = require('./protected');
 
 // Returns user data if token is valid
 router.post('/', protected, (req, res) => {
+  // Make sure to remind the client of the token
+  req.headers.user.token = req.headers.authorization;
   return res.status(200).json(req.headers.user);
 })
 
