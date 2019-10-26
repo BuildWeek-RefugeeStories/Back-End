@@ -81,7 +81,7 @@ router.post("/login", async (req, res) => {
 
     user = user[0];
 
-    if (!user.email) {
+    if (!user || !user.email) {
       return res.status(404).json({
         message:
           "No user with that email address exists, please check your credentials."
