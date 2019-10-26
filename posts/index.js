@@ -262,7 +262,8 @@ router.post("/new", protected, (req, res) => {
       },
       title: req.body.title,
       body: req.body.body,
-      approved: req.body.approved
+      approved: req.body.approved,
+      createdAt: Date.now()
     });
 
     user.posts.push(post._id);
