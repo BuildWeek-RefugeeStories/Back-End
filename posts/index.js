@@ -16,11 +16,11 @@ router.get("/", (req, res) => {
 
     const stories = docs.filter(doc => doc.approved);
 
-    const sortBy = req.query.sort ? req.query.sort : 'date';
+    const sortBy = req.query.sort ? req.query.sort : "date";
     const limit = req.query.limit ? req.query.limit : 25;
     let page = req.query.page ? req.query.page : 0;
 
-    if(page * limit > stories.length) {
+    if (page * limit > stories.length) {
       page = Math.floor(stories.length / limit);
     } else if (page < 0) page = 0;
 
@@ -34,9 +34,9 @@ router.get("/", (req, res) => {
       }
     }
 
-    let end = (page * limit) + limit;
+    let end = page * limit + limit;
 
-    if(end > stories.length) {
+    if (end > stories.length) {
       end = stories.length;
     }
 
@@ -46,24 +46,27 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get('/awaiting', protected, (req, res) => {
-  if(req.headers.decodedToken.level === 'admin' || req.headers.decodedToken.level === 'owner') {
+router.get("/awaiting", protected, (req, res) => {
+  if (
+    req.headers.decodedToken.level === "admin" ||
+    req.headers.decodedToken.level === "owner"
+  ) {
     Post.find((err, docs) => {
       if (err) {
         console.log(err);
         return res.status(500).json({ message: err });
       }
-  
+
       const stories = docs.filter(doc => !doc.approved);
-  
-      const sortBy = req.query.sort ? req.query.sort : 'date';
+
+      const sortBy = req.query.sort ? req.query.sort : "date";
       const limit = req.query.limit ? req.query.limit : 25;
       let page = req.query.page ? req.query.page : 0;
 
-      if(page * limit > stories.length) {
+      if (page * limit > stories.length) {
         page = Math.floor(stories.length / limit);
       } else if (page < 0) page = 0;
-  
+
       switch (sortBy) {
         case "likes": {
           stories.sort((a, b) => b.likes - a.likes);
@@ -73,21 +76,23 @@ router.get('/awaiting', protected, (req, res) => {
           stories.sort((a, b) => b.createdAt - a.createdAt);
         }
       }
-  
-      let end = (page * limit) + limit;
 
-      if(end > stories.length) {
+      let end = page * limit + limit;
+
+      if (end > stories.length) {
         end = stories.length;
       }
 
       stories.slice(page * limit, end);
-  
+
       return res.status(200).json(stories);
     });
   } else {
-    return res.status(401).json({message: "You are not authorized to view unapproved posts."});
+    return res
+      .status(401)
+      .json({ message: "You are not authorized to view unapproved posts." });
   }
-})
+});
 
 router.post("/like/:id", protected, (req, res) => {
   // Check for headers
@@ -187,12 +192,10 @@ router.delete("/:id", protected, (req, res) => {
           req.headers.user.save(err => {
             if (err) {
               console.log(err);
-              return res
-                .status(500)
-                .json({
-                  message:
-                    "An error occured while attempting to delete this post. Please try again later."
-                });
+              return res.status(500).json({
+                message:
+                  "An error occured while attempting to delete this post. Please try again later."
+              });
             }
           });
         }
@@ -289,22 +292,38 @@ router.post("/new", protected, (req, res) => {
   }
 });
 
-router.post('/approve/:id', protected, (req, res) => {
-  Post.findById(req.params.id, (err, doc) => {
-    if(err || !doc) {
-      return res.status(404).json({message: "Unable to find post. Make sure ID is accurate"});
-    } else {
-      doc.approved = true;
+router.post("/approve/:id", protected, (req, res) => {
+  if (
+    req.headers.decodedToken.level === "admin" ||
+    req.headers.decodedToken.level === "owner"
+  ) {
+    Post.findById(req.params.id, (err, doc) => {
+      if (err || !doc) {
+        return res
+          .status(404)
+          .json({ message: "Unable to find post. Make sure ID is accurate" });
+      } else {
+        doc.approved = true;
 
-      doc.save((err, doc) => {
-        if(!err) {
-          return res.status(200).json(doc);
-        } else {
-          return res.status(500).json({message: "An error occured while trying to approve this post. Please try again later."})
-        }
-      })
-    }
-  })
+        doc.save((err, doc) => {
+          if (!err) {
+            return res.status(200).json(doc);
+          } else {
+            return res
+              .status(500)
+              .json({
+                message:
+                  "An error occured while trying to approve this post. Please try again later."
+              });
+          }
+        });
+      }
+    });
+  } else {
+    return res
+      .status(401)
+      .json({ message: "You are not authorized to approve posts." });
+  }
 });
 
 module.exports = router;
