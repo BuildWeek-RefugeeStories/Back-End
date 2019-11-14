@@ -94,6 +94,31 @@ Responds with an array of posts
 ]
 ```
 
+## GET /posts/awaiting
+
+To retrieve posts awaiting approval, make a GET request to /posts/awaiting with an `authorization` property holding a valid token in the request headers.
+The token should belong to a user with a `level` of `admin` or `owner` in order to access this resource.
+
+Responds with an array of all posts currently pending approval:
+
+```
+[
+  {
+    "author": {
+      "id": "5daf86a23a5e73081c00a436",
+      "name": "Mohammad Tourjoman",
+      "country": "United States"
+    },
+    "createdAt": "1571786725323",
+    "likes": 1,
+    "_id": "5daf8ffff3d7f031944cc4f6",
+    "title": "This is my first post",
+    "body": "This post was not posted anonymously.",
+    "__v": 0
+  }
+]
+```
+
 ## GET /posts/:id
 
 To retrieve a specific post, make a GET request to /posts/:id where `:id` is the id of a specific post. No authorization required.
@@ -178,6 +203,29 @@ Responds with the newly created post, timestamped and reformatted
 ```
 
 Hint: You may use the createdAt value to come up with a date and time (You can use momentjs to do this)
+
+## POST /posts/approve/:id
+
+To approve a post, make a POST request to /posts/approve/:id where `:id` is the id of the post you want to approve with an `authorization` property holding a valid token in the request headers.
+The token should belong to a user with a `level` of `admin` or `owner` in order to perform this action.
+
+Responds with the newly approved post:
+
+```
+{
+  "createdAt": "1571786725323",
+  "likes": 0,
+  "_id": "5daf900df3d7f031944cc4f7",
+  "author": {
+    "id": "5daf86a23a5e73081c00a436",
+    "name": "Anonymous Author",
+    "country": ""
+  },
+  "title": "This is my second post",
+  "body": "This post was posted anonymously.",
+  "__v": 0
+}
+```
 
 ## POST /posts/like/:id
 
