@@ -28,7 +28,7 @@
     "global": "^4.4.0",
     "helmet": "^3.21.1",
     "jest": "^24.9.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "^5.7.5",
     "nodemon": "^1.19.4",
     "supertest": "^4.0.2"
